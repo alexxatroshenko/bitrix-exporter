@@ -37,7 +37,8 @@ partial class Form1
         label4 = new System.Windows.Forms.Label();
         button2 = new System.Windows.Forms.Button();
         label3 = new System.Windows.Forms.Label();
-        label5 = new System.Windows.Forms.Label();
+        folderPath = new System.Windows.Forms.Label();
+        status = new System.Windows.Forms.Label();
         SuspendLayout();
         // 
         // label1
@@ -76,10 +77,11 @@ partial class Form1
         button1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
         button1.Location = new System.Drawing.Point(12, 191);
         button1.Name = "button1";
-        button1.Size = new System.Drawing.Size(411, 42);
+        button1.Size = new System.Drawing.Size(179, 34);
         button1.TabIndex = 3;
         button1.Text = "экспорт\r\n";
         button1.UseVisualStyleBackColor = false;
+        button1.Click += button1_Click;
         // 
         // label4
         // 
@@ -114,20 +116,30 @@ partial class Form1
         label3.TabIndex = 8;
         label3.Text = "Выбрана папка:";
         // 
-        // label5
+        // folderPath
         // 
-        label5.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)204));
-        label5.Location = new System.Drawing.Point(112, 157);
-        label5.Name = "label5";
-        label5.Size = new System.Drawing.Size(311, 19);
-        label5.TabIndex = 9;
+        folderPath.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)204));
+        folderPath.Location = new System.Drawing.Point(112, 157);
+        folderPath.Name = "folderPath";
+        folderPath.Size = new System.Drawing.Size(311, 19);
+        folderPath.TabIndex = 9;
+        // 
+        // status
+        // 
+        status.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)204));
+        status.ForeColor = System.Drawing.Color.Red;
+        status.Location = new System.Drawing.Point(12, 241);
+        status.Name = "status";
+        status.Size = new System.Drawing.Size(426, 630);
+        status.TabIndex = 10;
         // 
         // Form1
         // 
         AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
         BackColor = System.Drawing.SystemColors.ButtonHighlight;
         ClientSize = new System.Drawing.Size(450, 269);
-        Controls.Add(label5);
+        Controls.Add(status);
+        Controls.Add(folderPath);
         Controls.Add(label3);
         Controls.Add(button2);
         Controls.Add(label4);
@@ -135,13 +147,15 @@ partial class Form1
         Controls.Add(label2);
         Controls.Add(webhookText);
         Controls.Add(label1);
-        MaximumSize = new System.Drawing.Size(466, 308);
+        MaximumSize = new System.Drawing.Size(466, 1000);
         MinimumSize = new System.Drawing.Size(466, 308);
         Text = "Bitrix export";
         ResumeLayout(false);
     }
 
-    private System.Windows.Forms.Label label5;
+    private System.Windows.Forms.Label status;
+
+    private System.Windows.Forms.Label folderPath;
 
     private System.Windows.Forms.Label label3;
 

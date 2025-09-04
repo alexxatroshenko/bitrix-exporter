@@ -1,3 +1,5 @@
+using Business;
+using Business.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BitrixJsonExporter;
@@ -27,6 +29,8 @@ static class Program
 
     private static void ConfigureServices(ServiceCollection services)
     {
-        services.AddScoped<Form1>();
+        services
+            .AddScoped<Form1>()
+            .AddScoped<IExporter, Exporter>();
     }
 }
