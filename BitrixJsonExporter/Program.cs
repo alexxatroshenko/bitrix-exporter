@@ -1,3 +1,5 @@
+using Microsoft.Extensions.DependencyInjection;
+
 namespace BitrixJsonExporter;
 
 static class Program
@@ -11,6 +13,20 @@ static class Program
         // To customize application configuration such as set high DPI settings or default font,
         // see https://aka.ms/applicationconfiguration.
         ApplicationConfiguration.Initialize();
-        Application.Run(new Form1());
+        
+        var services = new ServiceCollection();
+        ConfigureServices(services);
+
+        using (var serviceProvider = services.BuildServiceProvider())
+        {
+            var form = serviceProvider.GetRequiredService<Form1>();
+            Application.Run(form);
+        }
+
+    }
+
+    private static void ConfigureServices(ServiceCollection services)
+    {
+        services.AddScoped<Form1>();
     }
 }
