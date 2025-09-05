@@ -1,5 +1,7 @@
 using Business;
 using Business.Interfaces;
+using Data;
+using Data.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BitrixJsonExporter;
@@ -24,6 +26,7 @@ static class Program
             var form = serviceProvider.GetRequiredService<Form1>();
             Application.Run(form);
         }
+        
 
     }
 
@@ -31,6 +34,8 @@ static class Program
     {
         services
             .AddScoped<Form1>()
-            .AddScoped<IExporter, Exporter>();
+            .AddScoped<IExporter, Exporter>()
+            .AddHttpClient()
+            .AddScoped<IHttpService,HttpService>();
     }
 }

@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using Business.Interfaces;
+using Data.Interfaces;
 
 namespace BitrixJsonExporter;
 
@@ -7,9 +8,11 @@ public partial class Form1 : Form
 {
     const string WebhookRegex = @"^https://atlant\.bitrix24\.by/rest/\d+/[^/]+/$";
     private readonly IExporter _exporter;
-    public Form1(IExporter exporter)
+    private readonly IHttpService _httpService;
+    public Form1(IExporter exporter, IHttpService httpService)
     {
         _exporter = exporter;
+        _httpService = httpService;
         InitializeComponent();
     }
 
@@ -36,12 +39,13 @@ public partial class Form1 : Form
         }
     }
 
-    private void button1_Click(object sender, EventArgs e)
+    private async void button1_Click(object sender, EventArgs e)
     {
-        var webhook = webhookText.Text;
-        var path = folderPath.Text;
         try
         {
+            var webhook = webhookText.Text;
+            var path = folderPath.Text;
+            
             if (!Regex.IsMatch(webhook, WebhookRegex))
             {
                 throw new Exception("webhook неверного формата");
@@ -51,8 +55,8 @@ public partial class Form1 : Form
             {
                 throw new Exception("выберите путь для экспорта");
             }
-
-            _exporter.StartExport(webhook, path);
+            _httpService.ConfigureHttpClient(webhook);
+            await _exporter.StartExport(webhook, path);
         }
         catch (Exception ex)
         {

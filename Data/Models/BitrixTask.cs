@@ -1,176 +1,186 @@
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace Data.Models;
 
-public class Task
+public class TasksResponse
 {
-    public List<Task> ChildTasks { get; set; } = [];
+    [JsonProperty("result")]
+    public List<BitrixTask> Result { get; set; } = [];
+    
+    [JsonProperty("total")]
+    public int Total { get; set; }
+
+    [JsonIgnore] 
+    public int Time { get; set; }
+}
+public class BitrixTask
+{
+    public List<BitrixTask> ChildTasks { get; set; } = [];
     public List<Comment> Comments { get; set; } = [];
-    public List<AttachedFile> AttachedFiles { get; set; } = [];
     
-    [JsonPropertyName("TITLE")]
+    [JsonProperty("TITLE")]
     public string Title { get; set; } = null!;
+
+    [JsonProperty("STAGE_ID")] 
+    public string StageId { get; set; } = null!;
     
-    [JsonPropertyName("STAGE_ID")]
-    public int StageId { get; set; }
-    
-    [JsonPropertyName("DESCRIPTION")]
+    [JsonProperty("DESCRIPTION")]
     public string Description { get; set; } = null!;
     
-    [JsonPropertyName("DEADLINE")]
+    [JsonProperty("DEADLINE")]
     public string Deadline { get; set; } = null!;
 
-    [JsonPropertyName("START_DATE_PLAN")]
+    [JsonProperty("START_DATE_PLAN")]
     public string StartDatePlan { get; set; } = null!;
 
-    [JsonPropertyName("END_DATE_PLAN")]
+    [JsonProperty("END_DATE_PLAN")]
     public string EndDatePlan { get; set; } = null!;
 
-    [JsonPropertyName("PRIORITY")]
-    public int Priority { get; set; }
+    [JsonProperty("PRIORITY")] 
+    public string Priority { get; set; } = null!;
     
-    [JsonPropertyName("ALLOW_CHANGE_DEADLINE")]
+    [JsonProperty("ALLOW_CHANGE_DEADLINE")]
     public string AllowChangeDeadLine { get; set; } = null!;
     
-    [JsonPropertyName("TASK_CONTROL")]
+    [JsonProperty("TASK_CONTROL")]
     public string TaskControl { get; set; } = null!;
+
+    [JsonProperty("PARENT_ID")]
+    public int? ParentId { get; set; }
+
+    [JsonProperty("GROUP_ID")]
+    public string GroupId { get; set; } = null!;
     
-    [JsonPropertyName("PARENT_ID")]
-    public int ParentId { get; set; }
+    [JsonProperty("RESPONSIBLE_ID")]
+    public string ResponsibleId { get; set; } = null!;
     
-    [JsonPropertyName("GROUP_ID")]
-    public int GroupId { get; set; }
-    
-    [JsonPropertyName("RESPONSIBLE_ID")]
-    public int ResponsibleId { get; set; }
-    
-    [JsonPropertyName("TIME_ESTIMATE")]
+    [JsonProperty("TIME_ESTIMATE")]
     public string TimeEstimate { get; set; } = null!;
-    
-    [JsonPropertyName("ID")]
+
+    [JsonProperty("ID")]
     public int Id { get; set; }
+
+    [JsonProperty("CREATED_BY")] 
+    public string CreatedBy { get; set; } = null!;
     
-    [JsonPropertyName("CREATED_BY")]
-    public int CreatedBy { get; set; }
-    
-    [JsonPropertyName("DESCRIPTION_IN_BBCODE")]
+    [JsonProperty("DESCRIPTION_IN_BBCODE")]
     public string DescriptionInBbcode { get; set; } = null!;
     
-    [JsonPropertyName("DECLINE_REASON")]
+    [JsonProperty("DECLINE_REASON")]
     public string DeclineReason { get; set; } = null!;
 
-    [JsonPropertyName("REAL_STATUS")]
+    [JsonProperty("REAL_STATUS")]
     public string RealStatus { get; set; } = null!;
 
-    [JsonPropertyName("STATUS")]
+    [JsonProperty("STATUS")]
     public string Status { get; set; } = null!;
 
-    [JsonPropertyName("RESPONSIBLE_NAME")]
+    [JsonProperty("RESPONSIBLE_NAME")]
     public string ResponsibleName { get; set; } = null!;
 
-    [JsonPropertyName("RESPONSIBLE_LAST_NAME")]
+    [JsonProperty("RESPONSIBLE_LAST_NAME")]
     public string ResponsibleLastName { get; set; } = null!;
 
-    [JsonPropertyName("RESPONSIBLE_SECOND_NAME")]
+    [JsonProperty("RESPONSIBLE_SECOND_NAME")]
     public string ResponsibleSecondName { get; set; } = null!;
 
-    [JsonPropertyName("DATE_START")]
-    public DateTime DateStart { get; set; }
+    [JsonProperty("DATE_START")] 
+    public string DateStart { get; set; } = null!;
     
-    [JsonPropertyName("DURATION_FACT")]
+    [JsonProperty("DURATION_FACT")]
     public int? DurationFact { get; set; }
     
-    [JsonPropertyName("DURATION_PLAN")]
+    [JsonProperty("DURATION_PLAN")]
     public string DurationPlan { get; set; } = null!;
 
-    [JsonPropertyName("DURATION_TYPE")]
+    [JsonProperty("DURATION_TYPE")]
     public string DurationType { get; set; } = null!;
 
-    [JsonPropertyName("CREATED_BY_NAME")]
+    [JsonProperty("CREATED_BY_NAME")]
     public string CreatedByName { get; set; } = null!;
 
-    [JsonPropertyName("CREATED_BY_LAST_NAME")]
+    [JsonProperty("CREATED_BY_LAST_NAME")]
     public string CreatedByLastName { get; set; } = null!;
 
-    [JsonPropertyName("CREATED_BY_SECOND_NAME")]
+    [JsonProperty("CREATED_BY_SECOND_NAME")]
     public string CreatedBySecondName { get; set; } = null!;
 
-    [JsonPropertyName("CREATED_DATE")]
+    [JsonProperty("CREATED_DATE")]
     public string CreatedDate { get; set; } = null!;
 
-    [JsonPropertyName("CHANGED_BY")]
+    [JsonProperty("CHANGED_BY")]
     public string ChangedBy { get; set; } = null!;
 
-    [JsonPropertyName("CHANGED_DATE")]
+    [JsonProperty("CHANGED_DATE")]
     public string ChangedDate { get; set; } = null!;
 
-    [JsonPropertyName("STATUS_CHANGED_BY")]
+    [JsonProperty("STATUS_CHANGED_BY")]
     public string StatusChangedBy { get; set; } = null!;
 
-    [JsonPropertyName("STATUS_CHANGED_DATE")]
+    [JsonProperty("STATUS_CHANGED_DATE")]
     public string StatusChangedDate { get; set; } = null!;
 
-    [JsonPropertyName("CLOSED_BY")]
+    [JsonProperty("CLOSED_BY")]
     public string ClosedBy { get; set; } = null!;
 
-    [JsonPropertyName("CLOSED_DATE")]
+    [JsonProperty("CLOSED_DATE")]
     public string ClosedDate { get; set; } = null!;
 
-    [JsonPropertyName("ACTIVITY_DATE")]
+    [JsonProperty("ACTIVITY_DATE")]
     public string ActivityDate { get; set; } = null!;
 
-    [JsonPropertyName("GUID")]
+    [JsonProperty("GUID")]
     public string Guid { get; set; } = null!;
 
-    [JsonPropertyName("MARK")]
+    [JsonProperty("MARK")]
     public int? Mark { get; set; }
     
-    [JsonPropertyName("VIEWED_DATE")]
+    [JsonProperty("VIEWED_DATE")]
     public string ViewedDate { get; set; } = null!;
 
-    [JsonPropertyName("TIME_SPENT_IN_LOGS")]
+    [JsonProperty("TIME_SPENT_IN_LOGS")]
     public int? TimeSpentInLogs { get; set; }
     
-    [JsonPropertyName("FAVORITE")]
+    [JsonProperty("FAVORITE")]
     public string Favorite { get; set; } = null!;
 
-    [JsonPropertyName("ALLOW_TIME_TRACKING")]
+    [JsonProperty("ALLOW_TIME_TRACKING")]
     public string AllowTimeTracking { get; set; } = null!;
 
-    [JsonPropertyName("MATCH_WORK_TIME")]
+    [JsonProperty("MATCH_WORK_TIME")]
     public string MatchWorkTime { get; set; } = null!;
 
-    [JsonPropertyName("ADD_IN_REPORT")]
+    [JsonProperty("ADD_IN_REPORT")]
     public string AddInReport { get; set; } = null!;
 
-    [JsonPropertyName("FORUM_ID")]
+    [JsonProperty("FORUM_ID")]
     public string ForumId { get; set; } = null!;
 
-    [JsonPropertyName("FORUM_TOPIC_ID")]
+    [JsonProperty("FORUM_TOPIC_ID")]
     public string ForumTopicId { get; set; } = null!;
 
-    [JsonPropertyName("COMMENTS_COUNT")]
+    [JsonProperty("COMMENTS_COUNT")]
     public string CommentsCount { get; set; } = null!;
 
-    [JsonPropertyName("SITE_ID")]
+    [JsonProperty("SITE_ID")]
     public string SiteId { get; set; } = null!;
 
-    [JsonPropertyName("SUBORDINATE")]
+    [JsonProperty("SUBORDINATE")]
     public string Subordinate { get; set; } = null!;
 
-    [JsonPropertyName("FORKED_BY_TEMPLATE_ID")]
+    [JsonProperty("FORKED_BY_TEMPLATE_ID")]
     public int? ForkedByTemplateId { get; set; }
     
-    [JsonPropertyName("MULTITASK")]
+    [JsonProperty("MULTITASK")]
     public string Multitask { get; set; } = null!;
 
-    [JsonPropertyName("SCENARIO_NAME")]
+    [JsonProperty("SCENARIO_NAME")]
     public string ScenarioName { get; set; } = null!;
 
-    [JsonPropertyName("IS_REGULAR")]
+    [JsonProperty("IS_REGULAR")]
     public string IsRegular { get; set; } = null!;
 
-    [JsonPropertyName("FLOW_ID")]
+    [JsonProperty("FLOW_ID")]
     public int? FlowId { get; set; }
     
 }
