@@ -14,6 +14,7 @@ public partial class Form1 : Form
         _exporter = exporter;
         _httpService = httpService;
         InitializeComponent();
+        _exporter.OnStatusChanged += OnStatusChanged;
     }
 
     private void button2_Click(object sender, EventArgs e)
@@ -57,10 +58,16 @@ public partial class Form1 : Form
             }
             _httpService.ConfigureHttpClient(webhook);
             await _exporter.StartExport(webhook, path);
+            status.Text = "Данные успешно экспортированы";
         }
         catch (Exception ex)
         {
             status.Text = ex.Message;
         }
+    }
+
+    private void OnStatusChanged(string text)
+    {
+        status.Text = text;
     }
 }
