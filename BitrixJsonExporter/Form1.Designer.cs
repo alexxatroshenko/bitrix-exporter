@@ -38,6 +38,7 @@ partial class Form1
         button2 = new System.Windows.Forms.Button();
         label3 = new System.Windows.Forms.Label();
         folderPath = new System.Windows.Forms.Label();
+        exception = new System.Windows.Forms.Label();
         status = new System.Windows.Forms.Label();
         SuspendLayout();
         // 
@@ -124,14 +125,22 @@ partial class Form1
         folderPath.Size = new System.Drawing.Size(311, 19);
         folderPath.TabIndex = 9;
         // 
+        // exception
+        // 
+        exception.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)204));
+        exception.ForeColor = System.Drawing.Color.Red;
+        exception.Location = new System.Drawing.Point(12, 241);
+        exception.Name = "exception";
+        exception.Size = new System.Drawing.Size(426, 630);
+        exception.TabIndex = 10;
+        // 
         // status
         // 
         status.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)204));
-        status.ForeColor = System.Drawing.Color.Red;
-        status.Location = new System.Drawing.Point(12, 241);
+        status.Location = new System.Drawing.Point(206, 201);
         status.Name = "status";
-        status.Size = new System.Drawing.Size(426, 630);
-        status.TabIndex = 10;
+        status.Size = new System.Drawing.Size(243, 19);
+        status.TabIndex = 11;
         // 
         // Form1
         // 
@@ -139,6 +148,7 @@ partial class Form1
         BackColor = System.Drawing.SystemColors.ButtonHighlight;
         ClientSize = new System.Drawing.Size(450, 269);
         Controls.Add(status);
+        Controls.Add(exception);
         Controls.Add(folderPath);
         Controls.Add(label3);
         Controls.Add(button2);
@@ -154,6 +164,8 @@ partial class Form1
     }
 
     private System.Windows.Forms.Label status;
+
+    private System.Windows.Forms.Label exception;
 
     private System.Windows.Forms.Label folderPath;
 
