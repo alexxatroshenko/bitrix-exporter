@@ -62,7 +62,7 @@ public partial class Form1 : Form
         }
         catch (Exception ex)
         {
-            status.Text = ex.Message;
+            exception.Text = ex.Message;
         }
     }
 
