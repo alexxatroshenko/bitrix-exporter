@@ -36,6 +36,7 @@ static class Program
             .AddScoped<Form1>()
             .AddScoped<IExporter, Exporter>()
             .AddHttpClient()
-            .AddScoped<IHttpService,HttpService>();
+            .AddScoped<IHttpService,HttpService>()
+            .AddScoped<ITasksService, TasksService>();
     }
 }
