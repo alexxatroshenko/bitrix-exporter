@@ -28,20 +28,19 @@ public class TasksService: ITasksService
         return tasks;
     }
 
-    //todo test
     public List<BitrixTask> GetHierarchyList(List<BitrixTask> tasks)
     {
         var subtasks = FindAllSubtasks(tasks);
         var hierarchy = new List<BitrixTask>();
         foreach (var task in tasks)
         {
-            var taskChildren = subtasks[task.Id];
-            task.ChildTasks.AddRange(taskChildren);
-
             if (task.ParentId is null or 0)
             {
                 hierarchy.Add(task);
             }
+            
+            if(!subtasks.TryGetValue(task.Id, out var childTasks)) continue;
+            task.ChildTasks.AddRange(childTasks);
         }
 
         return hierarchy;
