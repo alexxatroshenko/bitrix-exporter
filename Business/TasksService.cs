@@ -20,11 +20,13 @@ public class TasksService: ITasksService
 
     public async Task<List<BitrixTask>> AttachCommentsToTasksAsync(List<BitrixTask> tasks)
     {
-        foreach (var task in tasks)
+        var asyncTasks = tasks.Select(async task =>
         {
             var comments = await _http.GetCommentsAsync(task.Id);
             task.Comments.AddRange(comments);
-        }
+        });
+        await Task.WhenAll(asyncTasks);
+        
         return tasks;
     }
 
