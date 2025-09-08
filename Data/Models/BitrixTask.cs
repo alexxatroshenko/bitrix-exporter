@@ -15,7 +15,9 @@ public class TasksResponse
 }
 public class BitrixTask
 {
+    [JsonIgnore]
     public List<BitrixTask> ChildTasks { get; set; } = [];
+    
     public List<Comment> Comments { get; set; } = [];
     
     [JsonProperty("TITLE")]
