@@ -9,7 +9,7 @@ public class HttpService(HttpClient http) : IHttpService
 {
     public void ConfigureHttpClient(string webhook)
     {
-        http.BaseAddress = new Uri(webhook);
+        http.BaseAddress ??= new Uri(webhook);
     }
 
     public async Task<List<BitrixTask>> GetTasksAsync()
@@ -30,7 +30,8 @@ public class HttpService(HttpClient http) : IHttpService
 
     public async Task<Stream> GetFileAsync(string url)
     {
-        using var getResponse = await http.GetAsync(url);
-        return await getResponse.Content.ReadAsStreamAsync();
+        var getResponse = await http.GetAsync(url);
+        var content = await getResponse.Content.ReadAsByteArrayAsync();
+        return new MemoryStream(content);
     }
 }
