@@ -66,8 +66,12 @@ public class Exporter(IHttpService httpService, ITasksService tasksService) : IE
                 var baseUrl = webhookUri.GetLeftPart(UriPartial.Authority);
 
                 await using var stream = await httpService.GetFileAsync(baseUrl + obj.DownloadUrl);
-                await using var fileStream = new FileStream(endpoint + "\\" + obj.Name, FileMode.Create,
-                    FileAccess.ReadWrite);
+                
+                var invalidChars = Path.GetInvalidFileNameChars();
+                var cleanFileName = string.Join("_", obj.Name.Split(invalidChars, StringSplitOptions.RemoveEmptyEntries));
+
+                await using var fileStream = new FileStream(Path.Combine(endpoint, cleanFileName), FileMode.Create,
+                    FileAccess.Write);
                 await stream.CopyToAsync(fileStream);
             }
         }
