@@ -1,18 +1,75 @@
 using Business.Interfaces;
 using Data.Interfaces;
+using Data.Models;
+using Newtonsoft.Json;
 
 namespace Business;
 
-public class Exporter: IExporter
+public class Exporter(IHttpService httpService, ITasksService tasksService) : IExporter
 {
-    private readonly IHttpService _httpService;
-    public Exporter(IHttpService httpService)
-    {
-        _httpService = httpService;
-    }
-
+    public event Action<string>? OnStatusChanged;
     public async Task StartExport(string webHook, string exportPath)
     {
-        var t = await _httpService.GetFileAsync("https://atlant.bitrix24.by/bitrix/tools/disk/uf.php?attachedId=131&auth%5Baplogin%5D=105&auth%5Bap%5D=5xb1kzirjpnm5bcx&action=download&ncc=1");
+        OnStatusChanged?.Invoke("Получение задач...");
+        var tasks = await tasksService.GetTasksAsync();
+        
+        OnStatusChanged?.Invoke("Получение комментариев...");
+        tasks = await tasksService.AttachCommentsToTasksAsync(tasks);
+        
+        OnStatusChanged?.Invoke("Формирование иерархии задач...");
+        var tasksTree = tasksService.GetHierarchyList(tasks);
+        
+        OnStatusChanged?.Invoke("Сохранение данных...");
+        await SaveDataToPath(exportPath + @"\bitrix_export\", tasksTree, webHook);
+    }
+
+    private async Task SaveDataToPath(string path, List<BitrixTask> tasksTree, string webhook)
+    {
+        foreach (var task in tasksTree)
+        {
+            var taskDirectoryName = @$"task_{task.Id}";
+            var endpoint = Path.Combine(path, taskDirectoryName);
+            var fullJsonPath = Path.Combine(endpoint, taskDirectoryName + ".json");
+            if (!Directory.Exists(endpoint))
+            {
+                Directory.CreateDirectory(endpoint);
+            }
+
+            var jsonTask = JsonConvert.SerializeObject(task, Formatting.Indented);
+            await File.WriteAllTextAsync(fullJsonPath, jsonTask);
+
+            if (task.Comments.Any(x => x.AttachedObjects is not null))
+            {
+                await SaveAttachedFiles(task, webhook, endpoint);
+            }
+            
+            if (task.ChildTasks.Any())
+            {
+                await SaveDataToPath(endpoint, task.ChildTasks, webhook);
+            }
+        }
+    }
+
+    private async Task SaveAttachedFiles(BitrixTask task, string webhook, string endpoint)
+    {
+        var attachedObjects = task.Comments
+            .Where(x => x.AttachedObjects is not null)
+            .Select(x => x.AttachedObjects);
+        foreach (var item in attachedObjects)
+        {
+            var objList = item?.Values.ToList();
+            if (objList == null) continue;
+                    
+            foreach (var obj in objList)
+            {
+                var webhookUri = new Uri(webhook);
+                var baseUrl = webhookUri.GetLeftPart(UriPartial.Authority);
+
+                await using var stream = await httpService.GetFileAsync(baseUrl + obj.DownloadUrl);
+                await using var fileStream = new FileStream(endpoint + "\\" + obj.Name, FileMode.Create,
+                    FileAccess.ReadWrite);
+                await stream.CopyToAsync(fileStream);
+            }
+        }
     }
 }
