@@ -22,9 +22,3 @@ public class AttachedObject
     [JsonProperty("VIEW_URL")]
     public string ViewUrl { get; set; } = null!;
 }
-
-public class BitrixFileInfo
-{
-    public string Name { get; set; } = null!;
-    public Stream Stream { get; set; } = null!;
-}

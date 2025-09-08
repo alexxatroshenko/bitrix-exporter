@@ -13,11 +13,13 @@ public class TasksResponse
     [JsonIgnore] 
     public int Time { get; set; }
 }
+
 public class BitrixTask
 {
     [JsonIgnore]
     public List<BitrixTask> ChildTasks { get; set; } = [];
     
+    [JsonProperty("COMMENTS")]
     public List<Comment> Comments { get; set; } = [];
     
     [JsonProperty("TITLE")]
