@@ -35,7 +35,7 @@ public class TasksService: ITasksService
         var hierarchy = new List<BitrixTask>();
         foreach (var task in tasks)
         {
-            var taskChildren = subtasks.Where(x => x.ParentId == task.Id);
+            var taskChildren = subtasks[task.Id];
             task.ChildTasks.AddRange(taskChildren);
 
             if (task.ParentId is null or 0)
@@ -47,8 +47,11 @@ public class TasksService: ITasksService
         return hierarchy;
     }
 
-    private List<BitrixTask> FindAllSubtasks(List<BitrixTask> tasks)
+    private Dictionary<int, IEnumerable<BitrixTask>> FindAllSubtasks(List<BitrixTask> tasks)
     {
-        return tasks.Where(x => x.ParentId is not null).ToList();
+        return tasks
+            .Where(x => x.ParentId is not null)
+            .GroupBy(x => x.ParentId)
+            .ToDictionary(x => (int)x.Key!, x => x.AsEnumerable());
     }
 }
